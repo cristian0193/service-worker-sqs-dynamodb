@@ -30,7 +30,7 @@ func (p *Processor) Start() {
 }
 
 // handleEvent is the entry point to handle consolidate event.
-func (p *Processor) handleEvent(event *domain.Event) {
+func (p *Processor) handleEvent(event *domain.EventSQS) {
 	if err := p.source.Processed(event); err != nil {
 		event.Log.Errorf("Error processing event: %v", err)
 	}
