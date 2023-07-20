@@ -1,13 +1,16 @@
 package builder
 
 import (
-	"service-worker-sqs-dynamodb/dataproviders/postgres"
+	"fmt"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"service-worker-sqs-dynamodb/dataproviders/awsdynamodb"
 )
 
-// NewDB defines all configurations to instantiate a postgres client.
-func NewDB(config *Configuration) (*postgres.ClientDB, error) {
-	db := postgres.NewDBClient(config.DBHost, config.DBUsername, config.DBPassword, config.DBName, config.DBPort)
-	err := db.Open()
-
-	return db, err
+// NewDynamodb define all usecases to instantiate DynamoDB.
+func NewDynamodb(config *Configuration, sessionaws *session.Session) (*awsdynamodb.ClientDynamoDB, error) {
+	db, err := awsdynamodb.NewDynamoDBClient(sessionaws, config.DynamoDBTable)
+	if err != nil {
+		return nil, fmt.Errorf("error awsdynamodb.NewDynamoDBClient: %w", err)
+	}
+	return db, nil
 }

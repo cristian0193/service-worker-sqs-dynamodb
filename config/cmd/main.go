@@ -25,13 +25,19 @@ func main() {
 	}
 
 	// session aws is initialized
-	session, err := builder.NewSession(config)
+	sessSQS, err := builder.NewSessionSQS(config)
+	if err != nil {
+		logger.Fatalf("error in Session : %v", err)
+	}
+
+	// session aws is initialized
+	sessDynamoDB, err := builder.NewSessionDynamoDB(config)
 	if err != nil {
 		logger.Fatalf("error in Session : %v", err)
 	}
 
 	// db is initialized
-	db, err := builder.NewDB(config)
+	db, err := builder.NewDynamodb(config, sessDynamoDB)
 	if err != nil {
 		logger.Fatalf("error in RDS : %v", err)
 	}
@@ -46,7 +52,7 @@ func main() {
 	eventsController := events.NewEventsController(eventsUseCases)
 
 	// sqs is initialized
-	sqs, err := builder.NewSQS(logger, config, session, eventsRepository)
+	sqs, err := builder.NewSQS(logger, config, sessSQS, eventsRepository)
 	if err != nil {
 		logger.Fatalf("error in SQS : %v", err)
 	}

@@ -65,9 +65,9 @@ Para del proyecto se toma como base los principios de las arquitecturas limpias,
   - [ ] `domain/`: administracion de los datos de manera transversal
   - [ ] `usecases/`: define los casos de uso utilizados por el handler
 - [x] `dataproviders/`: contiene la implementacion de los clients externos
+  - [ ] `awsdynamodb/`: define el cliente para aws dynamodb
   - [ ] `awssqs/`: define el cliente para aws sqs
   - [ ] `consumer/`: define la logica para obtener los mensajes desde el consumidor
-  - [ ] `dynamodb/`: define la conexion a la base de datos dynamodb
   - [ ] `processor/`: define el inicio del proceso para la lectura de mensajes desde SQS
   - [ ] `repository/`: define las consultas, actualizacion o inserciones a la base de datos
   - [ ] `server/`: define la configuracion para correr el server http
@@ -95,17 +95,13 @@ AWS_SQS_URL=
 AWS_SQS_MAX_MESSAGES=
 AWS_SQS_VISIBILITY_TIMEOUT=
 
-DB_PORT=
-DB_HOST=
-DB_NAME=
-DB_USERNAME=
-DB_PASSWORD=
+AWS_DYNAMODB_TABLE=
 ```
 
 <a name="local"></a>
 ### * **Local** 
 
-En el proceso local podemos utilizar despliegues de contenedores con postgres RDS o local.
+En el proceso local podemos utilizar despliegues de contenedores con dynamo.
 
     1. Creacion de DynamoDB en AWS
         - https://aws.amazon.com/es/dynamodb/
@@ -113,13 +109,11 @@ En el proceso local podemos utilizar despliegues de contenedores con postgres RD
     2. Creacion de SQS en AWS
         - https://aws.amazon.com/es/sqs/
 
-    3. La automigracion a nivel de gorm a las base de datos esta activa
+    3. Definir las variables de entorno definidas en (Despliegues)
 
-    4. Definir las variables de entorno definidas en (Despliegues)
+    4. Ejecutar el comando 'go run main.go'
 
-    6. Ejecutar el comando 'go run main.go'
-
-    7. Puerto :8080 run
+    5. Puerto :8080 run
 
 <a name="endpoints"></a>
 # Endpoints 🤖

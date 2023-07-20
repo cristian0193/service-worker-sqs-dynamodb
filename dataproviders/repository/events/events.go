@@ -1,34 +1,31 @@
 package events
 
 import (
-	"gorm.io/gorm/clause"
-	"service-worker-sqs-dynamodb/core/domain/entity"
+	"service-worker-sqs-dynamodb/core/domain"
 	"service-worker-sqs-dynamodb/core/domain/exceptions"
-	"service-worker-sqs-dynamodb/dataproviders/postgres"
+	"service-worker-sqs-dynamodb/dataproviders/awsdynamodb"
 )
 
 type IEventsRepository interface {
-	GetID(ID string) (*entity.Events, error)
-	Insert(events *entity.Events) error
+	GetID(ID string) (*domain.Events, error)
+	Insert(events *domain.Events) error
 }
 
 // EventsRepository encapsulates all the data needed to the persistence in the event table.
 type EventsRepository struct {
-	db *postgres.ClientDB
+	db *awsdynamodb.ClientDynamoDB
 }
 
-// NewEventsRepository instance the connection to the postgres.
-func NewEventsRepository(db *postgres.ClientDB) *EventsRepository {
+// NewEventsRepository instance the connection to the dynamodb.
+func NewEventsRepository(db *awsdynamodb.ClientDynamoDB) *EventsRepository {
 	return &EventsRepository{
 		db: db,
 	}
 }
 
 // GetID return the event by ID.
-func (er *EventsRepository) GetID(ID string) (*entity.Events, error) {
-	event := &entity.Events{}
-
-	err := er.db.DB.Model(&event).Where("id = ?", ID).Scan(&event).Error
+func (er *EventsRepository) GetID(ID string) (*domain.Events, error) {
+	event, err := er.db.GetItem(ID)
 	if err != nil {
 		return nil, exceptions.ErrInternalError
 	}
@@ -37,13 +34,6 @@ func (er *EventsRepository) GetID(ID string) (*entity.Events, error) {
 }
 
 // Insert records an event in the database.
-func (er *EventsRepository) Insert(events *entity.Events) error {
-	r := er.db.DB.Clauses(clause.OnConflict{
-		UpdateAll: true,
-	}).Create(&events)
-	if r.Error != nil {
-		r.Rollback()
-		return r.Error
-	}
-	return nil
+func (er *EventsRepository) Insert(events *domain.Events) error {
+	return er.db.InsertItem(events)
 }

@@ -15,11 +15,7 @@ type Configuration struct {
 	SQSUrl               string
 	SQSMaxMessages       int
 	SQSVisibilityTimeout int
-	DBPort               string
-	DBHost               string
-	DBName               string
-	DBUsername           string
-	DBPassword           string
+	DynamoDBTable        string
 }
 
 // LoadConfig get all the configuration variables for the implemented usecases.
@@ -69,27 +65,7 @@ func LoadConfig() (*Configuration, error) {
 		return nil, err
 	}
 
-	dbPort, err := env.GetString("DB_PORT")
-	if err != nil {
-		return nil, err
-	}
-
-	dbHost, err := env.GetString("DB_HOST")
-	if err != nil {
-		return nil, err
-	}
-
-	dbName, err := env.GetString("DB_NAME")
-	if err != nil {
-		return nil, err
-	}
-
-	dbUsername, err := env.GetString("DB_USERNAME")
-	if err != nil {
-		return nil, err
-	}
-
-	dbPassword, err := env.GetString("DB_PASSWORD")
+	dynamodbTable, err := env.GetString("AWS_DYNAMODB_TABLE")
 	if err != nil {
 		return nil, err
 	}
@@ -104,10 +80,6 @@ func LoadConfig() (*Configuration, error) {
 		SQSUrl:               sqsUrl,
 		SQSMaxMessages:       sqsMaxMessages,
 		SQSVisibilityTimeout: sqsVisibilityTimeout,
-		DBPort:               dbPort,
-		DBHost:               dbHost,
-		DBName:               dbName,
-		DBUsername:           dbUsername,
-		DBPassword:           dbPassword,
+		DynamoDBTable:        dynamodbTable,
 	}, nil
 }

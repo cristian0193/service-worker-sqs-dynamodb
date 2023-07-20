@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"go.uber.org/zap"
-	domain2 "service-worker-sqs-dynamodb/core/domain"
-	"service-worker-sqs-dynamodb/core/domain/entity"
+	"service-worker-sqs-dynamodb/core/domain"
 	"service-worker-sqs-dynamodb/dataproviders/awssqs"
 	repository "service-worker-sqs-dynamodb/dataproviders/repository/events"
 	"sync"
@@ -34,8 +33,8 @@ func New(sqsClient *awssqs.ClientSQS, logger *zap.SugaredLogger, maxMessages int
 }
 
 // Consume opens a channel and sends entities created from SQS messages.
-func (s *SQSSource) Consume() <-chan *domain2.Event {
-	out := make(chan *domain2.Event, s.maxMessages)
+func (s *SQSSource) Consume() <-chan *domain.Event {
+	out := make(chan *domain.Event, s.maxMessages)
 	go func() {
 		for {
 			if s.closed {
@@ -61,8 +60,8 @@ func (s *SQSSource) Consume() <-chan *domain2.Event {
 }
 
 // processMessage read message in queue.
-func (s *SQSSource) processMessage(msg *sqs.Message, out chan *domain2.Event) {
-	var records domain2.Events
+func (s *SQSSource) processMessage(msg *sqs.Message, out chan *domain.Event) {
+	var records domain.Events
 	err := json.Unmarshal([]byte(*msg.Body), &records)
 	if err != nil {
 		s.log.Errorf("Error processing message from SQS: %v", err)
@@ -77,7 +76,7 @@ func (s *SQSSource) processMessage(msg *sqs.Message, out chan *domain2.Event) {
 	logger := s.log.With("retry", retry)
 	logger.Infof("Step 1 - Start to process SQS event")
 
-	eventDB := &entity.Events{
+	eventDB := &domain.Events{
 		ID:      *msg.MessageId,
 		Message: records.Message,
 		Date:    time.Now().Format(time.RFC3339),
@@ -86,9 +85,9 @@ func (s *SQSSource) processMessage(msg *sqs.Message, out chan *domain2.Event) {
 	if err = s.repo.Insert(eventDB); err != nil {
 		logger.Errorf("Error inserting message: %v", err)
 	}
-	logger.Info("Step 2 - Event saved in postgres")
+	logger.Info("Step 2 - Event saved in dynamodb")
 
-	event := &domain2.Event{
+	event := &domain.Event{
 		ID:            *msg.MessageId,
 		Retry:         retry,
 		Records:       records,
@@ -101,7 +100,7 @@ func (s *SQSSource) processMessage(msg *sqs.Message, out chan *domain2.Event) {
 }
 
 // Processed notify that event of consolidate file was processed.
-func (s *SQSSource) Processed(event *domain2.Event) error {
+func (s *SQSSource) Processed(event *domain.Event) error {
 	defer s.wg.Done()
 	logger := event.Log
 
