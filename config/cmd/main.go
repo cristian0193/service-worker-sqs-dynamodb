@@ -5,7 +5,7 @@ import (
 	"os/signal"
 	"service-worker-sqs-dynamodb/config/cmd/builder"
 	cases "service-worker-sqs-dynamodb/core/usecases/events"
-	repository "service-worker-sqs-dynamodb/dataproviders/repository/events"
+	repository "service-worker-sqs-dynamodb/dataproviders/awsdynamodb/repository/events"
 	"service-worker-sqs-dynamodb/dataproviders/server"
 	"service-worker-sqs-dynamodb/entrypoints/controllers/events"
 	"syscall"
@@ -43,16 +43,16 @@ func main() {
 	}
 
 	// repositories are initialized
-	eventsRepository := repository.NewEventsRepository(db)
+	eventRepository := repository.NewEventRepository(db)
 
 	// usecases are initialized
-	eventsUseCases := cases.NewEventsUseCases(eventsRepository)
+	eventUseCases := cases.NewEventUseCases(eventRepository)
 
 	// controllers are initialized
-	eventsController := events.NewEventsController(eventsUseCases)
+	eventController := events.NewEventsController(eventUseCases)
 
 	// sqs is initialized
-	sqs, err := builder.NewSQS(logger, config, sessSQS, eventsRepository)
+	sqs, err := builder.NewSQS(logger, config, sessSQS, eventRepository)
 	if err != nil {
 		logger.Fatalf("error in SQS : %v", err)
 	}
@@ -65,7 +65,7 @@ func main() {
 	go processor.Start()
 
 	// server is initialized
-	srv := server.NewServer(config.Port, eventsController)
+	srv := server.NewServer(config.Port, eventController)
 	if err = srv.Start(); err != nil {
 		logger.Fatalf("error Starting Server: %v", err)
 	}
