@@ -54,7 +54,6 @@ Para del proyecto se toma como base los principios de las arquitecturas limpias,
 
 ![service-worker-sqs-dynamodb](https://github.com/cristian0193/service-worker-sqs-dynamodb/assets/11803196/f066be29-3b5b-47b9-ad8b-24db04f05d52)
 
-
 <a name="estructura-del-proyecto"></a>
 ### * **Estructura del proyecto** 🧱
 
