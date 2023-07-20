@@ -2,7 +2,7 @@ package processor
 
 import (
 	"go.uber.org/zap"
-	"service-worker-sqs-dynamo/core/domain"
+	"service-worker-sqs-dynamodb/core/domain"
 	"time"
 )
 

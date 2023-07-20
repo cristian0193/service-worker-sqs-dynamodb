@@ -5,14 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"service-worker-sqs-dynamo/entrypoints/controllers/events"
+	"service-worker-sqs-dynamodb/entrypoints/controllers/events"
 	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-const rootPrefix = "/service-worker-sqs-dynamo"
+const rootPrefix = "/service-worker-sqs-dynamodb"
 
 // Server is an instance of Http Server for Rest endpoints.
 type Server struct {

@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	_ "gorm.io/gorm/logger"
-	"service-worker-sqs-dynamo/core/domain/entity"
+	"service-worker-sqs-dynamodb/core/domain/entity"
 	"time"
 )
 

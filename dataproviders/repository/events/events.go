@@ -2,9 +2,9 @@ package events
 
 import (
 	"gorm.io/gorm/clause"
-	"service-worker-sqs-dynamo/core/domain/entity"
-	"service-worker-sqs-dynamo/core/domain/exceptions"
-	"service-worker-sqs-dynamo/dataproviders/postgres"
+	"service-worker-sqs-dynamodb/core/domain/entity"
+	"service-worker-sqs-dynamodb/core/domain/exceptions"
+	"service-worker-sqs-dynamodb/dataproviders/postgres"
 )
 
 type IEventsRepository interface {

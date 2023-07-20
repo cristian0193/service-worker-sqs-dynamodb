@@ -3,9 +3,9 @@ package events
 import (
 	"github.com/labstack/echo/v4"
 	"net/http"
-	"service-worker-sqs-dynamo/core/domain/exceptions"
-	cases "service-worker-sqs-dynamo/core/usecases/events"
-	env "service-worker-sqs-dynamo/dataproviders/utils"
+	"service-worker-sqs-dynamodb/core/domain/exceptions"
+	cases "service-worker-sqs-dynamodb/core/usecases/events"
+	env "service-worker-sqs-dynamodb/dataproviders/utils"
 )
 
 // EventsController encapsulates all the data necessary for the implementation of the EventsService.

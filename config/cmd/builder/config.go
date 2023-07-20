@@ -1,7 +1,7 @@
 package builder
 
 import (
-	env "service-worker-sqs-dynamo/dataproviders/utils"
+	env "service-worker-sqs-dynamodb/dataproviders/utils"
 )
 
 // Configuration represents parameters of application.

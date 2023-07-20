@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"service-worker-sqs-dynamo/dataproviders/postgres"
+	"service-worker-sqs-dynamodb/dataproviders/postgres"
 )
 
 // NewDB defines all configurations to instantiate a postgres client.

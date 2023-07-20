@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"service-worker-sqs-dynamo/core/domain"
+	"service-worker-sqs-dynamodb/core/domain"
 )
 
 // Events represents the entity.

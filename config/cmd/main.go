@@ -3,11 +3,11 @@ package main
 import (
 	"os"
 	"os/signal"
-	"service-worker-sqs-dynamo/config/cmd/builder"
-	cases "service-worker-sqs-dynamo/core/usecases/events"
-	repository "service-worker-sqs-dynamo/dataproviders/repository/events"
-	"service-worker-sqs-dynamo/dataproviders/server"
-	"service-worker-sqs-dynamo/entrypoints/controllers/events"
+	"service-worker-sqs-dynamodb/config/cmd/builder"
+	cases "service-worker-sqs-dynamodb/core/usecases/events"
+	repository "service-worker-sqs-dynamodb/dataproviders/repository/events"
+	"service-worker-sqs-dynamodb/dataproviders/server"
+	"service-worker-sqs-dynamodb/entrypoints/controllers/events"
 	"syscall"
 )
 
@@ -15,7 +15,7 @@ func main() {
 
 	// logger is initialized
 	logger := builder.NewLogger()
-	logger.Info("Starting service-worker-sqs-dynamo ...")
+	logger.Info("Starting service-worker-sqs-dynamodb ...")
 	defer builder.Sync(logger)
 
 	// config is initialized
@@ -78,6 +78,6 @@ func main() {
 		logger.Error("error Stopping Server: %v", err)
 	}
 
-	logger.Info("service-worker-sqs-dynamo ended")
+	logger.Info("service-worker-sqs-dynamodb ended")
 
 }

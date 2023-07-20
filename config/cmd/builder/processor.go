@@ -2,8 +2,8 @@ package builder
 
 import (
 	"go.uber.org/zap"
-	"service-worker-sqs-dynamo/core/domain"
-	"service-worker-sqs-dynamo/dataproviders/processor"
+	"service-worker-sqs-dynamodb/core/domain"
+	"service-worker-sqs-dynamodb/dataproviders/processor"
 )
 
 // NewProcessor define all usecases to be instantiated Processor associated with the consumer.

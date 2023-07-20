@@ -1,8 +1,8 @@
 package events
 
 import (
-	"service-worker-sqs-dynamo/core/domain/entity"
-	"service-worker-sqs-dynamo/dataproviders/repository/events"
+	"service-worker-sqs-dynamodb/core/domain/entity"
+	"service-worker-sqs-dynamodb/dataproviders/repository/events"
 )
 
 type IEventsCaseUses interface {

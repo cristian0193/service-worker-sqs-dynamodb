@@ -33,16 +33,11 @@ Las siguientes dependencias se utilizan en el desarrollo para llevar a cabo depl
 
 * [github.com/labstack/echo/v4](https://github.com/labstack/echo): Echo es un framework de aplicaciones web Go de código abierto, extensible y centrado en el rendimiento.
 
-* [gorm.io/gorm](https://gorm.io/): Es una libreria que permite el mapeo objeto-relacional (ORM), es una técnica que permite consultar y manipular datos de una base de datos utilizando un paradigma orientado a objetos.
-
-* [gorm.io/driver/postgres](https://github.com/go-gorm/postgres): Controlador que permite establecer la conexion entre una base de datos postgres y un cliente.
-
 * [go.uber.org/zap](https://pkg.go.dev/go.uber.org/zap): Permite la configuracion de logs.
 
 **Framework**
 
 * [Echo](https://echo.labstack.com/)
-* [Gorm](https://gorm.io/)
 
 **Servicios AWS**
 
@@ -50,32 +45,35 @@ Las siguientes dependencias se utilizan en el desarrollo para llevar a cabo depl
 
 **Bases de datos**
 
-* [Postgresql](https://www.postgresql.org/)
+* [Dynamo](https://aws.amazon.com/es/dynamodb/)
 
 <a name="arquitectura"></a>
 # Arquitectura 🏢
 
 Para del proyecto se toma como base los principios de las arquitecturas limpias, utilizando en este caso gran parte del concepto de **arquitectura multicapas**, lo cual permite la independencia de frameworks, entidades externas y UI, por medio de capas con responsabilidad únicas que permite ser testeables mediante el uso de sus interfaces. Como parte de las buenas prácticas la solución cuenta en su gran mayoría con la aplicación de los principios SOLID, garantizando un código limpio, mantenible, reutilizable y escalable.
 
-![service-worker-sqs-dynamo](https://github.com/cristian0193/service-worker-sqs-dynamo/assets/11803196/f066be29-3b5b-47b9-ad8b-24db04f05d52)
+![service-worker-sqs-dynamodb](https://github.com/cristian0193/service-worker-sqs-dynamodb/assets/11803196/f066be29-3b5b-47b9-ad8b-24db04f05d52)
 
 
 <a name="estructura-del-proyecto"></a>
 ### * **Estructura del proyecto** 🧱
 
-- [x] `clients/`: contiene la implementacion de los clients externos
+- [x] `config/`: establece las configuraciones iniciales a los servicios
+  - [ ] `cmd/`: administra los recursos de llamados al api
+    - [ ] `builder/`: construye cada una de las instancias transversales
+- [x] `core/`: establece la logica de negocio
+  - [ ] `domain/`: administracion de los datos de manera transversal
+  - [ ] `usecases/`: define los casos de uso utilizados por el handler
+- [x] `dataproviders/`: contiene la implementacion de los clients externos
   - [ ] `awssqs/`: define el cliente para aws sqs
-- [x] `cmd/`: administra los recursos de llamados al api
-  - [ ] `builder/`: construye cada una de las instancias transversales
-- [x] `consumer/`: define la logica para obtener los mensajes desde el consumidor
-- [x] `database/`: define la logica para obtener la conexion a base de datos (postgresql)
-- [x] `domain/`: administracion de los datos de manera transversal
-- [x] `http/`: administra los clientes api-rest
-  - [ ] `controllers/`: define los handler 
-  - [ ] `services/`: define los services asociados a los repositorios
-  - [ ] `repository/`: define las consultas, actializacion o inserciones a la base de datos
-- [x] `processor/`: define el inicio del proceso para la lectura de mensajes desde SQS
-- [x] `utils/`: define las funciones transversales
+  - [ ] `consumer/`: define la logica para obtener los mensajes desde el consumidor
+  - [ ] `dynamodb/`: define la conexion a la base de datos dynamodb
+  - [ ] `processor/`: define el inicio del proceso para la lectura de mensajes desde SQS
+  - [ ] `repository/`: define las consultas, actualizacion o inserciones a la base de datos
+  - [ ] `server/`: define la configuracion para correr el server http
+  - [ ] `utils/`: define las funciones transversales
+- [x] `entrypoints/`: administra los recursos de llamados al api
+  - [ ] `controllers/`: define los handler
 
 <a name="despliegues"></a>
 # Despliegues 🚀
@@ -109,9 +107,8 @@ DB_PASSWORD=
 
 En el proceso local podemos utilizar despliegues de contenedores con postgres RDS o local.
 
-    1. Instalacion postgres local o aws (rds)
-        - docker pull postgres
-        - https://aws.amazon.com/es/rds/
+    1. Creacion de DynamoDB en AWS
+        - https://aws.amazon.com/es/dynamodb/
 
     2. Creacion de SQS en AWS
         - https://aws.amazon.com/es/sqs/
@@ -144,7 +141,7 @@ curl --location --request GET 'http://localhost:8080/sqs/:id'
 <a name="queues"></a>
 # Queues 📨
 
-- **URL**    https://sqs.us-east-1.amazonaws.com/XXXXXXXX/service-worker-sqs-dynamo
+- **URL**    https://sqs.us-east-1.amazonaws.com/XXXXXXXX/service-worker-sqs-dynamodb
 
 
 - **Message**

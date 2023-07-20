@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"go.uber.org/zap"
-	"service-worker-sqs-dynamo/core/domain"
-	"service-worker-sqs-dynamo/dataproviders/awssqs"
-	"service-worker-sqs-dynamo/dataproviders/consumer"
-	repository "service-worker-sqs-dynamo/dataproviders/repository/events"
+	"service-worker-sqs-dynamodb/core/domain"
+	"service-worker-sqs-dynamodb/dataproviders/awssqs"
+	"service-worker-sqs-dynamodb/dataproviders/consumer"
+	repository "service-worker-sqs-dynamodb/dataproviders/repository/events"
 )
 
 // NewSQS define all usecases to instantiate SQS.

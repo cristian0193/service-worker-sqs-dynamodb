@@ -1,4 +1,4 @@
-module service-worker-sqs-dynamo
+module service-worker-sqs-dynamodb
 
 go 1.19
 
