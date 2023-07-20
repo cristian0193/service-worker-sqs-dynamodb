@@ -2,8 +2,8 @@ package domain
 
 import "go.uber.org/zap"
 
-// Event represents a process.
-type Event struct {
+// EventSQS represents a process.
+type EventSQS struct {
 	ID            string
 	Retry         string
 	Records       Events
@@ -13,7 +13,7 @@ type Event struct {
 
 // Source represents a source of events.
 type Source interface {
-	Consume() <-chan *Event
-	Processed(e *Event) error
+	Consume() <-chan *EventSQS
+	Processed(e *EventSQS) error
 	Close() error
 }

@@ -65,10 +65,11 @@ Para del proyecto se toma como base los principios de las arquitecturas limpias,
   - [ ] `usecases/`: define los casos de uso utilizados por el handler
 - [x] `dataproviders/`: contiene la implementacion de los clients externos
   - [ ] `awsdynamodb/`: define el cliente para aws dynamodb
+    - [ ] `repository/`: define las consultas, actualizacion o inserciones a la base de datos
   - [ ] `awssqs/`: define el cliente para aws sqs
   - [ ] `consumer/`: define la logica para obtener los mensajes desde el consumidor
+  - [ ] `mapper/`: permite la transformacion de structs a otras
   - [ ] `processor/`: define el inicio del proceso para la lectura de mensajes desde SQS
-  - [ ] `repository/`: define las consultas, actualizacion o inserciones a la base de datos
   - [ ] `server/`: define la configuracion para correr el server http
   - [ ] `utils/`: define las funciones transversales
 - [x] `entrypoints/`: administra los recursos de llamados al api
@@ -108,11 +109,9 @@ En el proceso local podemos utilizar despliegues de contenedores con dynamo.
     2. Creacion de SQS en AWS
         - https://aws.amazon.com/es/sqs/
 
-    3. Definir las variables de entorno definidas en (Despliegues)
+    3. Definir las variables de entorno
 
-    4. Ejecutar el comando 'go run main.go'
-
-    5. Puerto :8080 run
+    4. Start 'go run main.go'
 
 <a name="endpoints"></a>
 # Endpoints 🤖

@@ -4,7 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"service-worker-sqs-dynamodb/core/domain"
+	"service-worker-sqs-dynamodb/core/domain/entity"
 	"service-worker-sqs-dynamodb/dataproviders/utils"
 )
 
@@ -23,7 +23,7 @@ func NewDynamoDBClient(sess *session.Session, nameTable string) (*ClientDynamoDB
 }
 
 // GetItem retrieves item from DynamoDB.
-func (s *ClientDynamoDB) GetItem(id string) (*domain.Events, error) {
+func (s *ClientDynamoDB) GetItem(id string) (*entity.Event, error) {
 	getItemInput := &dynamodb.GetItemInput{
 		TableName: aws.String(s.nameTable),
 		Key: map[string]*dynamodb.AttributeValue{
@@ -37,30 +37,30 @@ func (s *ClientDynamoDB) GetItem(id string) (*domain.Events, error) {
 		return nil, err
 	}
 
-	var events *domain.Events
-	utils.Unmarshal(res.Item, &events)
-	return events, nil
+	var event *entity.Event
+	err = utils.Unmarshal(res.Item, &event)
+	if err != nil {
+		return nil, err
+	}
+
+	return event, nil
 }
 
 // InsertItem save item to DynamoDB.
-func (s *ClientDynamoDB) InsertItem(event *domain.Events) error {
-	item := map[string]*dynamodb.AttributeValue{
-		"ID": {
-			S: aws.String(event.ID),
-		},
-		"Message": {
-			S: aws.String(event.Message),
-		},
-		"Date": {
-			S: aws.String(event.Date),
-		},
+func (s *ClientDynamoDB) InsertItem(event *entity.Event) error {
+	item, err := utils.Marshal(event)
+	if err != nil {
+		if err != nil {
+			return err
+		}
 	}
+
 	putItemInput := &dynamodb.PutItemInput{
 		Item:      item,
 		TableName: aws.String(s.nameTable),
 	}
 
-	_, err := s.api.PutItem(putItemInput)
+	_, err = s.api.PutItem(putItemInput)
 	if err != nil {
 		return err
 	}

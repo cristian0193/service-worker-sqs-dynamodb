@@ -2,26 +2,26 @@ package events
 
 import (
 	"service-worker-sqs-dynamodb/core/domain"
-	"service-worker-sqs-dynamodb/dataproviders/repository/events"
+	"service-worker-sqs-dynamodb/dataproviders/awsdynamodb/repository/events"
 )
 
-type IEventsCaseUses interface {
+type IEventCaseUses interface {
 	GetID(ID string) (*domain.Events, error)
 }
 
-// EventsCaseUses encapsulates all the data necessary for the implementation of the EventsRepository.
-type EventsCaseUses struct {
-	eventRepository events.IEventsRepository
+// EventCaseUses encapsulates all the data necessary for the implementation of the EventsRepository.
+type EventCaseUses struct {
+	eventRepository events.IEventRepository
 }
 
-// NewEventsUseCases instance the repository usecases.
-func NewEventsUseCases(er events.IEventsRepository) *EventsCaseUses {
-	return &EventsCaseUses{
+// NewEventUseCases instance the repository usecases.
+func NewEventUseCases(er events.IEventRepository) *EventCaseUses {
+	return &EventCaseUses{
 		eventRepository: er,
 	}
 }
 
 // GetID return the event by ID.
-func (es *EventsCaseUses) GetID(ID string) (*domain.Events, error) {
+func (es *EventCaseUses) GetID(ID string) (*domain.Events, error) {
 	return es.eventRepository.GetID(ID)
 }
