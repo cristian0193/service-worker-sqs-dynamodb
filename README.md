@@ -1,5 +1,7 @@
 # Service Worker SQS - Dynamo
 
+![Diagrama2 1](https://github.com/cristian0193/service-worker-sqs-dynamodb/assets/11803196/615583a3-c022-48ea-8c7d-1b1ff424b65c)
+
 ## Tabla de contenido
 1. [Contexto](#contexto)
 2. [Tecnologías](#tecnologías)
@@ -52,7 +54,7 @@ Las siguientes dependencias se utilizan en el desarrollo para llevar a cabo depl
 
 Para del proyecto se toma como base los principios de las arquitecturas limpias, utilizando en este caso gran parte del concepto de **arquitectura multicapas**, lo cual permite la independencia de frameworks, entidades externas y UI, por medio de capas con responsabilidad únicas que permite ser testeables mediante el uso de sus interfaces. Como parte de las buenas prácticas la solución cuenta en su gran mayoría con la aplicación de los principios SOLID, garantizando un código limpio, mantenible, reutilizable y escalable.
 
-![service-worker-sqs-dynamo](https://github.com/cristian0193/service-worker-sqs-dynamodb/assets/11803196/67f8ccb0-ef6d-4aa6-b94b-428e9ed91812)
+![Diagrama2](https://github.com/cristian0193/service-worker-sqs-dynamodb/assets/11803196/eeba5a87-dc8e-4e94-a20e-dd706f604841)
 
 
 <a name="estructura-del-proyecto"></a>
